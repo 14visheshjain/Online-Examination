@@ -4,7 +4,7 @@ import Footer from '../General/Footer';
 import Header from '../General/Header';
 import "./Class.css";
 import Axios from '../../Axios';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 function listItemStyle(){
     return {
@@ -43,8 +43,9 @@ function Class(props) {
         startTime: ""
     });
     const listStyle = listItemStyle();
-    const {user , classId} = props.location.state;
-
+     let user = props.location.state.user;
+    let classId = props.location.state.classId;
+    
     function startTest(id){
 
     }
@@ -58,7 +59,7 @@ function Class(props) {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 // "Access-Control-Allow-Origin": "*",
-               "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+               //"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
             }
         })
         .then(data=>{
@@ -67,6 +68,7 @@ function Class(props) {
     }
 
      const today =getTime();
+  
     return (
     
         <div className="class__list__block">
@@ -205,6 +207,7 @@ function Class(props) {
         </div>
         
     )
-}
+ }
+
 
 export default Class;

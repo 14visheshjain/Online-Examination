@@ -52,9 +52,12 @@ module.exports = function(passport){
          })
        );
     
-      function SessionConstructor(userId, userGroup, details) {
+      function SessionConstructor(userId, userGroup, details , name ,collegeId) {
         this.userId = userId;
         this.userGroup = userGroup;
+        this.email = details;
+        this.name = name;
+        this.collegeId = collegeId;
       }
 
       passport.serializeUser(function (userObject, done) {
@@ -67,7 +70,9 @@ module.exports = function(passport){
         } else if (userPrototype === Teacher.prototype) {
             userGroup = "Teacher";
         }
-        let sessionConstructor = new SessionConstructor(userObject.id, userGroup);
+        console.log("detaisls " , userObject);
+
+        let sessionConstructor = new SessionConstructor(userObject.id, userGroup , userObject.email , userObject.firstName+" "+userObject.lastName , userObject.collegeID);
         done(null,sessionConstructor);
       });
 

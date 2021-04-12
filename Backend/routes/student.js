@@ -8,12 +8,12 @@ const {ensureAuthenticated ,forwardAuthenticated ,allowCrossDomain } = require('
 
 router.post("/JoinClass",allowCrossDomain, function(req,res){
 
-    //console.log("join class " ,req.session);
+    console.log("join class " ,req.session);
     
     const Classdata = req.body ; 
     const email = req.body.email;
-   console.log(email );
-   console.log(Classdata)
+//    console.log(email );
+//    console.log(Classdata)
     Student.findOne({email :email}, function(err ,data){
         if(err){
             res.send("student not found");
@@ -23,7 +23,7 @@ router.post("/JoinClass",allowCrossDomain, function(req,res){
             classBranch : Classdata.classBranch,
             classSection :Classdata.classSection,
             classSubjectCode : Classdata.classSubjectCode} , function(err, cdata){
-                console.log(cdata);
+              //  console.log(cdata);
                 if(err) {
                     res.send("error occured")
                 }else{
@@ -56,19 +56,24 @@ router.post("/JoinClass",allowCrossDomain, function(req,res){
 
 
 router.get("/getClassList/:email",allowCrossDomain, function(req,res){
-    //console.log("getclasslist " ,req.session);
+    console.log("getclasslist " ,req.passport);
+    console.log("getclasslist " ,req.session.passport.user);
 
-    const email = req.params.email;
-    Student.findOne({email :email}, function(err ,data){
-       if(err){
-           res.send("student not found");
-       }
-       res.send(data.enrolledClasses);
-    });
+        
+   // const email = req.params.email;
+
+    const email = req.session.passport.user.email;
+
+        Student.findOne({email :email}, function(err ,data){
+            if(err){
+                res.send("student not found");
+            }
+            res.send(data.enrolledClasses);
+         });
 });
 
 router.get("/classData" ,allowCrossDomain, function(req ,res){
-
+    console.log("class data : " ,req.session);
     const email = req.query.email;
     const classId = req.query.classId;
     Class.findById(classId , function(err , data){
@@ -132,7 +137,7 @@ router.get("/classData" ,allowCrossDomain, function(req ,res){
 
 router.get("/attempTest",allowCrossDomain,function(req,res){
     const questionPaperCode = req.query.questionPaperCode;
-    
+    console.log("attempttest " ,req.session);
     QuestionPaper.findOne({paperCode : questionPaperCode} , function(err ,data){
         if(err){
             res.send("No Question  paper found or not assigned any paper");
@@ -199,6 +204,21 @@ router.post("/attempTest",allowCrossDomain,function(req,res){
     setTimeout(() => {
         res.send("inserted");  
     }, 1000);
+});
+
+router.get("/data",allowCrossDomain, function(req,res){
+    console.log(" student login data :" ,req.session);
+
+    if(!req.session.passport){
+        res.status(401).send("not authenticated");
+    }else{
+        let user = {  email:req.session.passport.user.email,
+            name : req.session.passport.user.name ,
+            collegeId : req.session.passport.user.collegeId 
+            }
+            res.status(201).send(user);
+    }
+         
 });
 
 module.exports = router;

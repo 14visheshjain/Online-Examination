@@ -66,7 +66,7 @@ router.post('/signUp' , (req ,res)=>{
 
 // Login
 router.post('/login', allowCrossDomain,(req, res, next) => {
-
+  console.log("login " ,req.session);
     const userType = req.body.userType;
     if(userType==='Student'){
         passport.authenticate('StudentStrategy', )(req, res, function(err ,data){
@@ -85,5 +85,29 @@ router.post('/login', allowCrossDomain,(req, res, next) => {
         });
     }   
 });
+router.get('/logout', allowCrossDomain,(req, res, next) => {
+  req.logout();
+  console.log("logout ");
+  res.send("Logout");
+
+});
+
+
+router.get("/data",allowCrossDomain, function(req,res){
+  console.log(" General login data :" ,req.session);
+
+  if(!req.session.passport){
+      res.status(401).send("not authenticated");
+  }else{
+      let user = {  email:req.session.passport.user.email,
+          name : "Vishesh " ,
+          collegeId : "391" ,
+          userType : req.session.passport.user.userGroup,
+          }
+          res.status(201).send(user);
+  }
+       
+});
+
 
 module.exports = router;

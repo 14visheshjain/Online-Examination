@@ -251,4 +251,19 @@ router.post("/deleteScheduledTest",allowCrossDomain,function(req,res){
     }) 
 })
 
+router.get("/data",allowCrossDomain, function(req,res){
+    console.log(" teacher login data :" ,req.session);
+
+    if(!req.session.passport){
+        res.status(401).send("not authenticated");
+    }else{
+        let user = {  email:req.session.passport.user.email,
+            name : req.session.passport.user.name ,
+            collegeId : req.session.passport.user.collegeId 
+            }
+            res.status(201).send(user);
+    }
+         
+});
+
 module.exports = router;

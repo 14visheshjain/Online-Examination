@@ -1,6 +1,6 @@
 import { FormControl, Input , FormHelperText, InputLabel, MenuItem, Select, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import Header from './Header';
 import Footer from './Footer';
 import Axios from '../Axios';
@@ -33,6 +33,28 @@ const defaultUser= {
 function SignUp() {
     const [user, setUser] = useState({...defaultUser})
     const[userLoginSuccess , setUserLogin] = useState(false);
+
+    useEffect(() => { 
+        loadUserData();
+    }, []);
+  
+        const loadUserData = async(event)=>{
+        await  Axios.get('/data' ,{withCredentials: true},
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                // "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+                    }
+        })
+        .then(data=>{
+            data =data.data;
+            console.log("login data ",data);
+            setUser(prev => {return {...prev , name : data.name , collegeId : data.collegeId , userType : data.userType};})
+            setUserLogin(true);
+        }).catch(err=>{
+        });
+    }
 
 
     const classes = useStyles();

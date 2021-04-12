@@ -1,6 +1,6 @@
 import { FormControl, Input , FormHelperText, InputLabel, MenuItem, Select, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import React ,{useState} from 'react'
+import React ,{useEffect, useState} from 'react'
 import Header from './Header';
 import Footer from './Footer';
 import Axios from '../Axios';
@@ -34,7 +34,29 @@ function Login() {
     const[userLoginSuccess , setUserLogin] = useState(false);
     const classes = useStyles();
 
-    
+    useEffect(() => { 
+        loadUserData();
+    }, []);
+  
+        const loadUserData = async(event)=>{
+        await  Axios.get('/data' ,{withCredentials: true},
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                // "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+                    }
+        })
+        .then(data=>{
+            data =data.data;
+            console.log("login data ",data);
+            setUser(prev => {return {...prev , name : data.name , collegeId : data.collegeId , userType : data.userType};})
+            setUserLogin(true);
+        }).catch(err=>{
+        });
+    }
+
+
     function handleChange(event){
         const {name , value} = event.target;
         setUser( ( prev)=>{
@@ -56,8 +78,8 @@ function Login() {
             {
                 headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                //  "Access-Control-Allow-Origin": "*",
-                // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+                  "Access-Control-Allow-Origin": "*",
+                 "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
                 }
             })
             .then(data=>{
@@ -94,6 +116,8 @@ function Login() {
 
              />}   
     }
+
+
     return (
         <div>
         <Header/>
