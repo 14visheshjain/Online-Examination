@@ -10,9 +10,9 @@ import { Redirect } from 'react-router';
 const qs = require('querystring')
 
 function TeacherClass(props) {
-    //const user = props.location.state.user;
+    const temp_user = props.location.state.user;
     const [logout, updateLogout] = useState( false);
-    const [user, updateUser] = useState( {  email: "TO BE LOADED",
+    const [user, updateUser] = useState( {  email: temp_user.email,
                                             name : "USER NAME" ,
                                             collegeId : "ID" 
                                             });
@@ -35,9 +35,6 @@ function TeacherClass(props) {
             updateUser(data);
             loadClassList(data);
           
-           
-            
-
         }).catch(err=>{
             updateLogout(true);
         });
@@ -59,7 +56,7 @@ function TeacherClass(props) {
 
     const loadClassList = async(event)=>{
         //console.log("load class list",event.email);
-        await Axios.get('/Teacher/getClassList/'+event.email,{withCredentials: true},
+        await Axios.get('/Teacher/getClassList/'+user.email,{withCredentials: true},
         {
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -69,6 +66,7 @@ function TeacherClass(props) {
         })
         .then(data=>{
             setEnrolledClasses(data.data);
+            console.log(data.data);
             });
     }
 
@@ -101,7 +99,7 @@ function TeacherClass(props) {
             })
             .then(data=>{
                 if(data.status===201){
-                    alert("Class Already Create")
+                    alert("Class Already Created")
                 }else{
                     loadClassList();
                    

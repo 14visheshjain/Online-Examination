@@ -8,12 +8,12 @@ const {ensureAuthenticated ,forwardAuthenticated ,allowCrossDomain } = require('
 
 router.post("/JoinClass",allowCrossDomain, function(req,res){
 
-    console.log("join class " ,req.session);
+   // console.log("join class " ,req.body);
     
     const Classdata = req.body ; 
     const email = req.body.email;
-//    console.log(email );
-//    console.log(Classdata)
+    console.log(email );
+    console.log(Classdata);
     Student.findOne({email :email}, function(err ,data){
         if(err){
             res.send("student not found");
@@ -56,8 +56,8 @@ router.post("/JoinClass",allowCrossDomain, function(req,res){
 
 
 router.get("/getClassList/:email",allowCrossDomain, function(req,res){
-    console.log("getclasslist " ,req.passport);
-    console.log("getclasslist " ,req.session.passport.user);
+    // console.log("getclasslist " ,req.passport);
+    // console.log("getclasslist " ,req.session.passport.user);
 
         
    // const email = req.params.email;
@@ -73,7 +73,7 @@ router.get("/getClassList/:email",allowCrossDomain, function(req,res){
 });
 
 router.get("/classData" ,allowCrossDomain, function(req ,res){
-    console.log("class data : " ,req.session);
+    //console.log("class data : " ,req.session);
     const email = req.query.email;
     const classId = req.query.classId;
     Class.findById(classId , function(err , data){
@@ -137,7 +137,7 @@ router.get("/classData" ,allowCrossDomain, function(req ,res){
 
 router.get("/attempTest",allowCrossDomain,function(req,res){
     const questionPaperCode = req.query.questionPaperCode;
-    console.log("attempttest " ,req.session);
+   // console.log("attempttest " ,req.session);
     QuestionPaper.findOne({paperCode : questionPaperCode} , function(err ,data){
         if(err){
             res.send("No Question  paper found or not assigned any paper");
@@ -170,8 +170,10 @@ router.post("/attempTest",allowCrossDomain,function(req,res){
                     }else{
                         let actualAnswer = Paperdata.answerList;
                         let marksScored = 0 ;
+                        console.log("\n\n\n Evaluate answer : \n\n\n");
                         response.forEach((studentAnswer , index)=>{
-                            if(studentAnswer.toString() === actualAnswer[index].toString() ){
+                            if(studentAnswer.toString() == actualAnswer[index].toString() ){
+                                console.log(studentAnswer.toString() +" "+actualAnswer[index].toString()+"\n\n" );
                                 marksScored = marksScored +Number(Paperdata.questionsList[index].points);
                             }
                             if(index === response.length-1){
@@ -207,7 +209,7 @@ router.post("/attempTest",allowCrossDomain,function(req,res){
 });
 
 router.get("/data",allowCrossDomain, function(req,res){
-    console.log(" student login data :" ,req.session);
+   // console.log(" student login data :" ,req.session);
 
     if(!req.session.passport){
         res.status(401).send("not authenticated");

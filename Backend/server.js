@@ -29,14 +29,14 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    // maxAge :3600000,
+     maxAge :3600000,
     expires:false,
     cookie: {    
-    //    maxAge : 3600000, 
        name :'connect.oesbackend.id',
-     expires:false,
+      expires:false,
 }
-}))
+}));
+
 // passport middleware
 app.use(passport.initialize());
 app.use(passport.session());

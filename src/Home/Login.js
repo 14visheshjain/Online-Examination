@@ -124,7 +124,7 @@ function Login() {
         <div className="login1">
             <div className="login__header1">
                 <i style={{color:"#ffbdb3"}} className="fas fa-laptop-code"></i>
-                <h1>Examster</h1>
+                <h1>e-PARIKSHA</h1>
             </div>
             <div className="login__body">
                 <h2>Login</h2>

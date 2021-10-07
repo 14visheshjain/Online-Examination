@@ -11,9 +11,9 @@ function ClassList(props) {
     // const user = props.location.state.user;
 
 
-      //  const user = props.location.state.use;
+        const temp_user = props.location.state.user;
   const [logout, updateLogout] = useState( false);
-  const [user, updateUser] = useState( {  email: "TO BE LOADED",
+  const [user, updateUser] = useState( {  email: temp_user.email,
   name : "USER NAME" ,
   collegeId : "ID" 
   });

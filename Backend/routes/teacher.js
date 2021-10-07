@@ -10,7 +10,8 @@ const QuestionPaper = require("../models/Schemas").QuestionPaper;
 const {ensureAuthenticated ,forwardAuthenticated ,allowCrossDomain } = require('../config/auth.js');
 
 router.post("/CreateClass",allowCrossDomain, function(req,res){
-    // console.log("create Class  :",req.session);
+    //  console.log("create Class  \nn\n\n:",req.body);
+    //  console.log("\n\n\n\n");
 
     const Classdata = req.body ;
     const findData = {
@@ -207,7 +208,7 @@ router.post("/createPaper",allowCrossDomain,function(req,res){
 
 router.post("/getMarksList",allowCrossDomain,function(req,res){
     const testDetails=req.body;
-    console.log(testDetails);
+    //console.log(testDetails);
     let marksList=[];
     testDetails.studentResponse.forEach((student) => {
         const email=student.studentEmail;
@@ -252,7 +253,7 @@ router.post("/deleteScheduledTest",allowCrossDomain,function(req,res){
 })
 
 router.get("/data",allowCrossDomain, function(req,res){
-    console.log(" teacher login data :" ,req.session);
+   // console.log(" teacher login data :" ,req.session);
 
     if(!req.session.passport){
         res.status(401).send("not authenticated");

@@ -3,7 +3,7 @@
 import * as faceapi from 'face-api.js';
 export default function(){
     const video = document.getElementById('cum_video');
-    console.log("in proctoring ");
+   // console.log("in proctoring ");
     var Stream ;
     Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri('./Proctoring/models'),
@@ -36,7 +36,7 @@ export default function(){
                 time = time +1;
                 ans = count;
                 console.log("cur detections 1" ,count);
-                if(time >=10){
+                if(time >=5){
                   clearInterval(inter);
                   console.log("cur detections " , count);
                 }

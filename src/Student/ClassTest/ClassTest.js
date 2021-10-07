@@ -107,23 +107,23 @@ function ClassTest(props) {
         faceapi.matchDimensions(canvas, displaySize)
         var ans = 0 ;
         let time = 0 ;
-        var cheat = 0 ;
+        var cheat1 = 0 ;
         const  inter = setInterval(async () => {
                 time = time +1;
                 const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
                 ans = Math.max(ans ,Number( detections.length) );
                 if(time >= 10){
-                    await console.log("cur detections " ,ans , time);
+                 //   await console.lonog("cur detections " ,ans , time);
                     if(ans ==0 || ans >1){
-                        cheat++ ;
+                        cheat1++ ;
                         setCheat(prev => {return prev +1});
                     }  
-                    if(cheat>=Number(5) ){
-                        console.log(cheat);
+                    if(cheat1>=Number(5) ){
+                       // console.log(cheat);
                         setMinutes(0);
                         setSeconds(0);
                     }
-                    console.log(cheat);
+                   // console.log(cheat);
                     time = 0 ;
                     ans =0;
                 }
