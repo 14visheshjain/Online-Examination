@@ -114,7 +114,10 @@ function Class(props) {
                                 </div>
                             } />
                             <ListItemSecondaryAction>
-                            {today>=test.date+"T"+test.startTime &&
+                                
+                            {/* {today>=test.date+"T"+test.startTime && console.log(today , test.date , test.startTime)  */}
+                            { true
+                            &&
                                 <Link 
                                 style={{textDecorationLine:"none"}}
                                 to={{
